@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>VideoRecomender</title>
+	<style type="text/css">
+    body{
+      background:#339933;
+      font-family:'微软雅黑,sans-serif';
+    }
+    #main{
+      width:900px;
+      margin-left:auto;
+      margin-right:auto;
+    }
+	</style>
+	<script src="jquery.min.js" type="text/javascript"></script>
+  <script type="text/javascript">
+    var uploadAll = function(vids){
+      $.get('https://openapi.youku.com/v2/videos/show_batch.json',{
+        client_id:'9c528d4d804d3150',
+        video_ids:vids
+      },
+      function(data){
+        var getStr = JSON.parse(data);
+        getStr.videos.forEach(function(videoData){
+          var vid = videoData.id;
+          var tags= videoData.category+','+videoData.tags;
+          var thumbnail= videoData.thumbnail;
+          var title = videoData.title;
+          $.post('/addvideo',{
+            vid:vid,
+            tags:tags,
+            thumbnail:thumbnail,
+            title:title
+          },function(data){
+            console.log(data);
+          });
+        });
+      });
+    }
+    var getVids = function(data){
+      var getStr = JSON.parse(data);
+      var vids;
+      getStr.videos.forEach(function(videoData){
+        if(vids){
+          vids = vids+','+videoData.id;
+        }else{
+          vids = videoData.id;
+        }
+      });
+      return vids;
+    }
+    //程序入口
+	  $(function(){
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'资讯'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('资讯ok');
+      });
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'娱乐'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('娱乐ok');
+      });
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'原创',
+        period:'history'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('原创ok');
+      });
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'体育'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('体育ok');
+      });
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'汽车'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('汽车ok');
+      });
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'科技'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('科技ok');
+      });
+      $.get('https://openapi.youku.com/v2/videos/by_category.json',{
+        client_id:'9c528d4d804d3150',
+        category:'游戏'
+      },
+      function(data){
+        var vids = getVids(data);
+        uploadAll(vids);
+        alert('游戏ok');
+      });
+		});
+  </script>
+  </head>
+  <body>
+  <div id="main">
+  </div>
+  </body>
+</html>

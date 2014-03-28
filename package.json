@@ -1,0 +1,17 @@
+{
+    "name": "tags-cloud",
+    "version": "0.0.1",
+    "description": "Program shows user's profile using watched history",
+    "author": "Loi Kong",
+    "dependencies": {
+        "mongodb": "*",
+        "mongoose": "*",
+        "express": "*"
+    },
+    "scripts": {
+        "start": "node ./server.js"
+    },
+    "engines": {
+        "node": ">= 0.8.0"
+    }
+}
